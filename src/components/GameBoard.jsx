@@ -1,23 +1,32 @@
-import { useState } from "react";
-
 const initialGameBoard = [
   ["", "", ""],
   ["", "", ""],
   ["", "", ""],
 ];
 
-export default function GameBoard() {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+export default function GameBoard({ onSelectSquare, turns }) {
+// Derive State from Props
+  let gameBoard = initialGameBoard;
 
-  function handleSelectSquare(rowIndex, colIndex) {
-    // we use a function to update the state based on the previous state
-    // React lets us pass previous state to the setter function by default
-    setGameBoard((prevGameBoard) => {
-      const updatedGameBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
-      updatedGameBoard[rowIndex][colIndex] = "X";
-      return updatedGameBoard;
-    });
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square; 
+    gameBoard[row][col] = player;
   }
+
+  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
+
+  // function handleSelectSquare(rowIndex, colIndex) {
+  //   // we use a function to update the state based on the previous state
+  //   // React lets us pass previous state to the setter function by default
+  //   setGameBoard((prevGameBoard) => {
+  //     const updatedGameBoard = [...prevGameBoard.map(innerArray => [...innerArray])];
+  //     updatedGameBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //     return updatedGameBoard;
+  //   });
+
+  //   onSelectSquare();
+  // }
 
   return (
     <ol id="game-board">
@@ -26,7 +35,7 @@ export default function GameBoard() {
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => handleSelectSquare(rowIndex,colIndex) }>{playerSymbol}</button>
+                <button onClick={ () => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
               </li>
             ))}
           </ol>
