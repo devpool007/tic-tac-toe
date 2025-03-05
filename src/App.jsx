@@ -4,6 +4,7 @@ import Log from "./components/Log";
 import GameOver from "./components/GameOver";
 import { useState } from "react";
 import { WINNING_COMBINATIONS } from "./winning-combinations";
+import { Analytics } from "@vercel/analytics/react"
 
 const PLAYERS = {
   X: 'PLayer 1',
@@ -126,7 +127,10 @@ function App() {
       </div>
 
       <Log turns={gameTurns} />
+      
+      <Analytics/>
     </main>
+    
   );
 }
 
